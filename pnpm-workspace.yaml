@@ -1,0 +1,14 @@
+packages:
+  - apps/*
+allowBuilds:
+  '@parcel/watcher': true
+  '@prisma/engines': true
+  '@scarf/scarf': true
+  argon2: true
+  esbuild: true
+  prisma: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - zod@4.6.5
+  - '@nestjs/jwt@12.0.2'
+  - multer@2.4.0

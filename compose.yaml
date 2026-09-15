@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ventasfix_dev
+      MYSQL_USER: ventasfix
+      MYSQL_PASSWORD: ventasfix_dev_password
+      MYSQL_ROOT_PASSWORD: ventasfix_root_password
+    ports:
+      - '3307:3306'
+    volumes:
+      - ventasfix_mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  ventasfix_mysql_data:
