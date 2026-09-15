@@ -44,7 +44,9 @@ compose.yaml
 
 Crear `apps/api/.env` desde `apps/api/.env.example` y configurar, como mínimo:
 
-`DATABASE_URL`, `SHADOW_DATABASE_URL`, `TEST_DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_ACCESS_TTL`, `REFRESH_TOKEN_TTL_DAYS` y las variables `BOOTSTRAP_ADMIN_*`.
+`DATABASE_URL`, `SHADOW_DATABASE_URL`, `TEST_DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_ACCESS_TTL`, `REFRESH_TOKEN_TTL_DAYS`, `SWAGGER_ENABLED=true` y las variables `BOOTSTRAP_ADMIN_*`.
+
+Para revisar Swagger localmente, `SWAGGER_ENABLED` debe estar en `true` y la API debe reiniciarse después de cambiarlo.
 
 `apps/api/.env` está excluido del repositorio. Nunca publicar secretos.
 

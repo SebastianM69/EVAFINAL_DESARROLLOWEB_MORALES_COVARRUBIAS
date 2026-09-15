@@ -1,4 +1,4 @@
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -18,18 +18,21 @@ import type { AuthenticatedRequest } from './access-token.guard.js';
 import { AuthService } from './auth.service.js';
 import { REFRESH_COOKIE_NAME } from './auth.types.js';
 import type { AuthResponse, PublicUser } from './auth.types.js';
-import { LoginDto } from './dto/login.dto.js';
+import { AuthResponseDto, LoginDto, PublicUserResponseDto } from './dto/login.dto.js';
+
 type CookieRequest = {
   cookies?: Record<string, string | undefined>;
   header(name: string): string | undefined;
 };
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: AuthResponseDto })
   async login(
     @Body() body: LoginDto,
     @Res({ passthrough: true }) response: Response,
@@ -45,6 +48,7 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: AuthResponseDto })
   async refresh(
     @Req() request: CookieRequest,
     @Res({ passthrough: true }) response: Response,
@@ -65,6 +69,7 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse()
   async logout(
     @Req() request: CookieRequest,
     @Res({ passthrough: true }) response: Response,
@@ -81,6 +86,7 @@ export class AuthController {
   @ApiBearerAuth()
   @Get('me')
   @UseGuards(AccessTokenGuard)
+  @ApiOkResponse({ type: PublicUserResponseDto })
   async me(@Req() request: AuthenticatedRequest): Promise<PublicUser> {
     return this.authService.me(request.user.sub);
   }

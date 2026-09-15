@@ -86,4 +86,28 @@ describe('VentasFix OpenAPI contract', () => {
       }),
     );
   });
+
+  it('documents request properties and response payloads', () => {
+    expect(document.components.schemas?.LoginDto?.properties).toEqual(
+      expect.objectContaining({ email: expect.any(Object), password: expect.any(Object) }),
+    );
+    expect(document.components.schemas?.ProductResponseDto?.properties).toEqual(
+      expect.objectContaining({
+        precioNeto: expect.any(Object),
+        precioVenta: expect.any(Object),
+        imageUrl: expect.any(Object),
+      }),
+    );
+
+    const productsResponse = document.paths['/api/v1/productos']?.get?.responses?.['200'];
+    expect(productsResponse).toEqual(
+      expect.objectContaining({
+        content: expect.objectContaining({
+          'application/json': expect.objectContaining({
+            schema: { type: 'array', items: { $ref: '#/components/schemas/ProductResponseDto' } },
+          }),
+        }),
+      }),
+    );
+  });
 });

@@ -13,15 +13,23 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { memoryStorage } from 'multer';
 
 import { AccessTokenGuard } from '../auth/access-token.guard.js';
 import { Roles } from '../auth/roles.decorator.js';
 import { RolesGuard } from '../auth/roles.guard.js';
 import { Role } from '../generated/prisma/client.js';
-import { ProductDto } from './dto/product.dto.js';
+import { ProductDto, ProductResponseDto } from './dto/product.dto.js';
 import { ProductsService } from './products.service.js';
 
 const productFormProperties = {
@@ -37,6 +45,7 @@ const productFormProperties = {
   image: { type: 'string', format: 'binary' },
 };
 
+@ApiTags('Products')
 @ApiBearerAuth()
 @Controller('productos')
 @UseGuards(AccessTokenGuard, RolesGuard)
@@ -45,17 +54,20 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
+  @ApiOkResponse({ type: ProductResponseDto, isArray: true })
   findAll() {
     return this.productsService.findAll();
   }
 
   @Get(':id')
+  @ApiOkResponse({ type: ProductResponseDto })
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findById(id);
   }
 
   @Post()
   @ApiConsumes('multipart/form-data')
+  @ApiCreatedResponse({ type: ProductResponseDto })
   @ApiBody({
     schema: {
       type: 'object',
@@ -83,6 +95,7 @@ export class ProductsController {
 
   @Put(':id')
   @ApiConsumes('multipart/form-data')
+  @ApiOkResponse({ type: ProductResponseDto })
   @ApiBody({
     schema: {
       type: 'object',
@@ -113,6 +126,7 @@ export class ProductsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse()
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.productsService.remove(id);
   }
