@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { AdminRoute } from './auth/admin-route';
 import { AuthProvider } from './auth/auth-context';
@@ -19,6 +19,7 @@ export function AppRouter(): React.JSX.Element {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>

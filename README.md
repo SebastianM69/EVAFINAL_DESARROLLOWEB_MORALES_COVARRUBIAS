@@ -58,13 +58,19 @@ corepack pnpm --filter @ventasfix/api db:seed
 
 ## Desarrollo
 
-API:
+Antes de iniciar una demo:
 
 ```bash
-corepack pnpm --filter @ventasfix/api start:dev
+corepack pnpm --filter @ventasfix/api build
 ```
 
-Web:
+API estable para grabación:
+
+```bash
+corepack pnpm --filter @ventasfix/api start:demo
+```
+
+Frontend:
 
 ```bash
 corepack pnpm --filter @ventasfix/web dev
@@ -72,10 +78,22 @@ corepack pnpm --filter @ventasfix/web dev
 
 Rutas principales:
 
-- Web: `http://localhost:5173`
+- Web: `http://localhost:5173` o `http://127.0.0.1:5173`
+- Login: `/login` — la raíz redirige automáticamente al login.
 - Health: `http://localhost:3000/health`
 - Swagger habilitado: `http://localhost:3000/api/docs`
 - Swagger JSON: `http://localhost:3000/api/docs-json`
+
+## Preparación limpia para grabación
+
+El seed no cambia la contraseña de un administrador que ya existe. Para preparar una base de demostración desde cero, ejecutar conscientemente:
+
+```bash
+corepack pnpm --filter @ventasfix/api db:reset:demo
+corepack pnpm --filter @ventasfix/api db:seed
+```
+
+El primer comando borra los datos de `ventasfix_dev` y reaplica las migraciones. El segundo crea el administrador usando la contraseña definida en `apps/api/.env`. No ejecutarlos si se desea conservar datos existentes.
 
 ## Quality gates
 

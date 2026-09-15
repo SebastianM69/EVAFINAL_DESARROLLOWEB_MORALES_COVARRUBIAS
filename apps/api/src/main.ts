@@ -19,11 +19,14 @@ async function bootstrap(): Promise<void> {
   const port = configService.getOrThrow<number>('PORT');
   const webOrigin = configService.getOrThrow<string>('WEB_ORIGIN');
   const swaggerEnabled = configService.getOrThrow<boolean>('SWAGGER_ENABLED');
+  const allowedWebOrigins = [
+    ...new Set([webOrigin, 'http://localhost:5173', 'http://127.0.0.1:5173']),
+  ];
 
   app.use(helmet());
   app.use(cookieParser());
   app.useBodyParser('json', { limit: '100kb' });
-  app.enableCors({ origin: webOrigin, credentials: true });
+  app.enableCors({ origin: allowedWebOrigins, credentials: true });
   app.setGlobalPrefix('api/v1', {
     exclude: [
       { path: 'health', method: RequestMethod.GET },
