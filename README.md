@@ -122,3 +122,9 @@ Las respuestas públicas nunca incluyen passwords, hashes, refresh tokens ni rut
 ## Entrega
 
 El SDD documental se entrega separado del código. El paquete de implementación no incluye `node_modules`, `dist`, `.env`, media local ni resultados temporales.
+
+## Repositorio
+
+Código fuente:
+
+`https://github.com/SebastianM69/EVAFINAL_DESARROLLOWEB_MORALES_COVARRUBIAS`
