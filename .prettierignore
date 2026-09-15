@@ -3,3 +3,5 @@ dist/
 coverage/
 apps/api/src/generated/
 _tmp_*
+test-results/
+playwright-report/

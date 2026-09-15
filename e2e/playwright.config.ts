@@ -24,8 +24,8 @@ export default defineConfig({
     },
     {
       url: 'http://127.0.0.1:5173',
+      command: 'corepack pnpm --dir ../apps/web exec vite --host 127.0.0.1',
       env: { VITE_API_URL: 'http://127.0.0.1:3000/api/v1' },
-      command: 'corepack pnpm --dir ../apps/web dev -- --host 127.0.0.1',
       reuseExistingServer: true,
       timeout: 120_000,
     },

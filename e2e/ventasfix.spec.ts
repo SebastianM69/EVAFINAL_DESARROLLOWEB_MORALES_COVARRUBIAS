@@ -42,20 +42,36 @@ async function adminToken(): Promise<string> {
   return body.accessToken as string;
 }
 
+async function deleteMatchingRecords(
+  path: string,
+  token: string,
+  matches: (record: Record<string, unknown>) => boolean,
+): Promise<void> {
+  const listed = await apiJson(path, { headers: { authorization: `Bearer ${token}` } });
+  expect(listed.status).toBe(200);
+  for (const value of Array.isArray(listed.body) ? listed.body : []) {
+    const record = value as Record<string, unknown>;
+    if (typeof record.id === 'number' && matches(record)) {
+      const deleted = await apiJson(`${path}/${record.id}`, {
+        method: 'DELETE',
+        headers: { authorization: `Bearer ${token}` },
+      });
+      expect(deleted.status).toBe(204);
+    }
+  }
+}
+
+async function cleanupE2ERecords(token: string): Promise<void> {
+  await deleteMatchingRecords('/usuarios', token, (record) =>
+    [e2eUser.email, createdUserEmail].includes(String(record.email)),
+  );
+  await deleteMatchingRecords('/productos', token, (record) => record.sku === 'E2E-001');
+  await deleteMatchingRecords('/clientes', token, (record) => record.rutEmpresa === '9876543-3');
+}
+
 async function prepareE2EUser(): Promise<void> {
   const token = await adminToken();
-  const users = await apiJson('/usuarios', { headers: { authorization: `Bearer ${token}` } });
-  expect(users.status).toBe(200);
-  const existing = (users.body as Array<{ id: number; email: string }>).find(
-    (user) => user.email === e2eUser.email,
-  );
-  if (existing) {
-    const deleted = await apiJson(`/usuarios/${existing.id}`, {
-      method: 'DELETE',
-      headers: { authorization: `Bearer ${token}` },
-    });
-    expect(deleted.status).toBe(204);
-  }
+  await cleanupE2ERecords(token);
 
   const created = await apiJson('/usuarios', {
     method: 'POST',
@@ -63,20 +79,6 @@ async function prepareE2EUser(): Promise<void> {
     body: JSON.stringify(e2eUser),
   });
   expect(created.status).toBe(201);
-
-  const createdUsers = await apiJson('/usuarios', {
-    headers: { authorization: `Bearer ${token}` },
-  });
-  const uiUser = (createdUsers.body as Array<{ id: number; email: string }>).find(
-    (user) => user.email === createdUserEmail,
-  );
-  if (uiUser) {
-    const deleted = await apiJson(`/usuarios/${uiUser.id}`, {
-      method: 'DELETE',
-      headers: { authorization: `Bearer ${token}` },
-    });
-    expect(deleted.status).toBe(204);
-  }
 }
 
 async function login(page: Page, email: string, password: string): Promise<void> {
@@ -89,6 +91,10 @@ async function login(page: Page, email: string, password: string): Promise<void>
 
 test.beforeAll(async () => {
   await prepareE2EUser();
+});
+
+test.afterAll(async () => {
+  await cleanupE2ERecords(await adminToken());
 });
 
 test('ADMIN can navigate protected sections and create a user', async ({ page }) => {

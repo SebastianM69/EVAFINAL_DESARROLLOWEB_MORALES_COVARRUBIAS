@@ -35,15 +35,13 @@ export function ClientsPage(): React.JSX.Element {
 
   async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
-    const values = Object.fromEntries(new FormData(event.currentTarget).entries()) as Record<
-      string,
-      string
-    >;
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
     const input = Object.fromEntries(
       fields.map((field) => [field, values[field] ?? '']),
     ) as ClientInput;
     await mutation.mutateAsync(input);
-    event.currentTarget.reset();
+    form.reset();
   }
 
   return (

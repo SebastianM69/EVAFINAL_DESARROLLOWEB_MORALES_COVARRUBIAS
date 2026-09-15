@@ -88,14 +88,21 @@ describe('VentasFix OpenAPI contract', () => {
   });
 
   it('documents request properties and response payloads', () => {
-    expect(document.components.schemas?.LoginDto?.properties).toEqual(
-      expect.objectContaining({ email: expect.any(Object), password: expect.any(Object) }),
-    );
-    expect(document.components.schemas?.ProductResponseDto?.properties).toEqual(
+    expect(document.components?.schemas?.LoginDto).toEqual(
       expect.objectContaining({
-        precioNeto: expect.any(Object),
-        precioVenta: expect.any(Object),
-        imageUrl: expect.any(Object),
+        properties: expect.objectContaining({
+          email: expect.any(Object),
+          password: expect.any(Object),
+        }),
+      }),
+    );
+    expect(document.components?.schemas?.ProductResponseDto).toEqual(
+      expect.objectContaining({
+        properties: expect.objectContaining({
+          precioNeto: expect.any(Object),
+          precioVenta: expect.any(Object),
+          imageUrl: expect.any(Object),
+        }),
       }),
     );
 

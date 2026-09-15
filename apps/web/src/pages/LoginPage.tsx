@@ -20,13 +20,14 @@ type LocationState = {
 
 export function LoginPage(): React.JSX.Element {
   const { login, status } = useAuth();
-  if (status === 'CHECKING') {
-    return <div className="route-state">Comprobando sesión…</div>;
-  }
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState | null;
   const form = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
+
+  if (status === 'CHECKING') {
+    return <div className="route-state">Comprobando sesión…</div>;
+  }
 
   async function handleSubmit(values: LoginForm): Promise<void> {
     try {
