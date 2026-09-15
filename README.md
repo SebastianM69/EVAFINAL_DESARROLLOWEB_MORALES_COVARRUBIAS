@@ -121,7 +121,9 @@ Las respuestas públicas nunca incluyen passwords, hashes, refresh tokens ni rut
 
 ## Entrega
 
-El SDD documental se entrega separado del código. El paquete de implementación no incluye `node_modules`, `dist`, `.env`, media local ni resultados temporales.
+El paquete de implementación debe entregarse como `EXF_MORALES_SEBASTIAN.zip`. No incluye `node_modules`, `dist`, `.env`, media local ni resultados temporales.
+
+La evidencia de la indisponibilidad del template académico está en `EVIDENCIA_TEMPLATE_INACCESIBLE.txt`. El SDD documental actualizado se entrega separado del código.
 
 ## Repositorio
 

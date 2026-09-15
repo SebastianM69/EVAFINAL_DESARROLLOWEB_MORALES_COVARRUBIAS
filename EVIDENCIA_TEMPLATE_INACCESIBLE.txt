@@ -1,0 +1,17 @@
+EVIDENCIA — TEMPLATE ACADÉMICO INACCESIBLE
+
+Proyecto: VentasFix
+Fecha de comprobación: 2026-09-15
+
+Fuente indicada en EXAMEN.pdf:
+https://drive.google.com/file/d/1X0lrEuiCAn6EG5xU1Z1CoqM8MwfNzp/view?usp=drive_link
+
+Resultado de comprobación:
+La URL respondió HTTP 404 (Not Found). El recurso no pudo descargarse ni visualizarse.
+
+Decisión documental:
+Se aplicó la contingencia aprobada en el SDD: implementar un Backoffice propio, sin afirmar que corresponde al template original inaccesible.
+
+Evidencia relacionada:
+- EXAMEN.pdf, sección de requerimientos y formato de entrega.
+- SDD: 15_TEMPLATE_CONTINGENCY.md y ADR-039-TEMPLATE-CONTINGENCY-AND-UI-ARCHITECTURE.md.
