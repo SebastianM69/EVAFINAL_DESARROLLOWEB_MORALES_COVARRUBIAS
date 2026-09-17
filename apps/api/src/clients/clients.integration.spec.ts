@@ -174,6 +174,32 @@ describe('VentasFix clients HTTP contract', () => {
     );
   });
 
+  it('returns Spanish field validation messages', async () => {
+    const adminToken = await login('admin@ventasfix.cl', adminPassword);
+
+    const response = await request(httpServer)
+      .post('/api/v1/clientes')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(
+        clientPayload({
+          rutEmpresa: '12.345.678-9',
+          rubro: 'X',
+          emailContacto: 'correo-invalido',
+        }),
+      )
+      .expect(422);
+
+    expect(response.body.fieldErrors).toEqual(
+      expect.objectContaining({
+        rutEmpresa: expect.arrayContaining(['RUT empresa debe ser un RUT chileno válido.']),
+        rubro: expect.arrayContaining(['Rubro debe tener al menos 2 caracteres.']),
+        emailContacto: expect.arrayContaining([
+          'Email de contacto debe ser un correo electrónico válido.',
+        ]),
+      }),
+    );
+  });
+
   it('rejects duplicate RUT and phone values outside the significant-digit range', async () => {
     const adminToken = await login('admin@ventasfix.cl', adminPassword);
 

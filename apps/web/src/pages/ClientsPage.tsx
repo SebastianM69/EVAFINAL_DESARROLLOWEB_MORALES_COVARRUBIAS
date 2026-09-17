@@ -74,6 +74,7 @@ export function ClientsPage(): React.JSX.Element {
           key={editing?.id ?? 'new'}
           className="entity-form"
           onSubmit={(event) => void submit(event)}
+          noValidate
         >
           <div className="form-heading">
             <div>
