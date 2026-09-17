@@ -69,6 +69,7 @@ export class AuthService {
     const updateResult = await this.prisma.authSession.updateMany({
       where: {
         id: session.id,
+        refreshTokenHash: session.refreshTokenHash,
         revokedAt: null,
       },
       data: {

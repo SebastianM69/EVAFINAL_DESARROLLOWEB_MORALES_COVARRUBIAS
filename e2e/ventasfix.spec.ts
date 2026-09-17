@@ -133,13 +133,13 @@ test('ADMIN can navigate protected sections and create a user', async ({ page })
 
   await page.getByRole('link', { name: 'Clientes' }).click();
   await expect(page.getByRole('heading', { name: 'Clientes' })).toBeVisible();
-  await page.getByLabel('rutEmpresa').fill('9876543-3');
-  await page.getByLabel('rubro').fill('Servicios');
-  await page.getByLabel('razonSocial').fill('Cliente E2E SpA');
-  await page.getByLabel('telefono').fill('912345678');
-  await page.getByLabel('direccion').fill('Avenida E2E 1');
-  await page.getByLabel('nombreContacto').fill('Contacto E2E');
-  await page.getByLabel('emailContacto').fill('cliente-e2e@empresa.cl');
+  await page.getByLabel('RUT empresa').fill('9876543-3');
+  await page.getByLabel('Rubro').fill('Servicios');
+  await page.getByLabel('Razón social').fill('Cliente E2E SpA');
+  await page.getByLabel('Teléfono').fill('912345678');
+  await page.getByLabel('Dirección').fill('Avenida E2E 1');
+  await page.getByLabel('Nombre de contacto').fill('Contacto E2E');
+  await page.getByLabel('Email de contacto').fill('cliente-e2e@empresa.cl');
   await page.getByRole('button', { name: 'Crear cliente' }).click();
   await expect(page.getByText('Cliente E2E SpA')).toBeVisible();
 

@@ -10,6 +10,7 @@ import type { NextFunction, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module.js';
+import { AuthRateLimitMiddleware } from './common/auth-rate-limit.middleware.js';
 import { HttpExceptionFilter } from './common/http-exception.filter.js';
 import { createValidationPipe } from './common/validation-pipe.js';
 
@@ -27,6 +28,8 @@ async function bootstrap(): Promise<void> {
   app.use(cookieParser());
   app.useBodyParser('json', { limit: '100kb' });
   app.enableCors({ origin: allowedWebOrigins, credentials: true });
+  const authRateLimiter = new AuthRateLimitMiddleware();
+  app.use(authRateLimiter.use.bind(authRateLimiter));
   app.setGlobalPrefix('api/v1', {
     exclude: [
       { path: 'health', method: RequestMethod.GET },
@@ -54,6 +57,7 @@ async function bootstrap(): Promise<void> {
   }
 
   await app.listen(port);
+
   app.use((request: Request, response: Response) => {
     const requestId = request.header('x-request-id') ?? randomUUID();
     response.status(404).json({

@@ -1,3 +1,5 @@
+import { Transform } from 'class-transformer';
+
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
@@ -7,23 +9,27 @@ const corporateEmail = /^[^\s@]+@ventasfix\.cl$/i;
 
 export class CreateUserDto {
   @ApiProperty({ example: '11111111-1' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @IsChileanRut()
   rut!: string;
 
   @ApiProperty({ example: 'Administrador' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   nombre!: string;
 
   @ApiProperty({ example: 'VentasFix' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   apellido!: string;
 
   @ApiProperty({ example: 'usuario@ventasfix.cl' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsEmail()
   @Matches(corporateEmail, { message: 'El email debe pertenecer al dominio ventasfix.cl.' })
   @MaxLength(254)
@@ -33,28 +39,33 @@ export class CreateUserDto {
   @IsString()
   @MinLength(12)
   @MaxLength(128)
+  @Matches(/\S/, { message: 'La contraseña no puede ser solo espacios.' })
   password!: string;
 }
 
 export class UpdateUserDto {
   @ApiProperty({ example: '11111111-1' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @IsChileanRut()
   rut!: string;
 
   @ApiProperty({ example: 'Administrador' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   nombre!: string;
 
   @ApiProperty({ example: 'VentasFix' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   apellido!: string;
 
   @ApiProperty({ example: 'usuario@ventasfix.cl' })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsEmail()
   @Matches(corporateEmail, { message: 'El email debe pertenecer al dominio ventasfix.cl.' })
   @MaxLength(254)
@@ -69,6 +80,7 @@ export class UpdateUserDto {
   @IsString()
   @MinLength(12)
   @MaxLength(128)
+  @Matches(/\S/, { message: 'La contraseña no puede ser solo espacios.' })
   @IsOptional()
   password?: string;
 }

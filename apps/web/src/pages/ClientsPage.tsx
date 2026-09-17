@@ -88,9 +88,10 @@ export function ClientsPage(): React.JSX.Element {
             )}
           </div>
           {fields.map((field) => (
-            <label className="form-field" key={field}>
+            <label className="form-field" key={field} htmlFor={field}>
               <span>{fieldLabels[field]}</span>
               <input
+                id={field}
                 name={field}
                 type={field === 'emailContacto' ? 'email' : 'text'}
                 defaultValue={editing?.[field] ?? ''}

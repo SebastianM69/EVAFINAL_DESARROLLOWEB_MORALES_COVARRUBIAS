@@ -2,7 +2,12 @@ import { mkdir, stat, unlink, writeFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { join, resolve } from 'node:path';
 
-import { BadRequestException, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { fileTypeFromBuffer } from 'file-type';
 
 const allowedTypes: Record<string, string> = {
@@ -69,7 +74,7 @@ export class ProductImageService {
     try {
       await stat(absolutePath);
     } catch {
-      throw new BadRequestException({
+      throw new NotFoundException({
         code: 'RESOURCE_NOT_FOUND',
         message: 'Imagen no encontrada.',
       });

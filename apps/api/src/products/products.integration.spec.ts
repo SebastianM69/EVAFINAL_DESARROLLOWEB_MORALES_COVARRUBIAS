@@ -261,13 +261,13 @@ describe('VentasFix products HTTP contract', () => {
     const nextImageUrl = readImageUrl(updated.body);
 
     expect(nextImageUrl).not.toBe(previousImageUrl);
-    await request(httpServer).get(previousImageUrl).expect(400);
+    await request(httpServer).get(previousImageUrl).expect(404);
 
     await request(httpServer)
       .delete(`/api/v1/productos/${productId}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .expect(204);
-    await request(httpServer).get(nextImageUrl).expect(400);
+    await request(httpServer).get(nextImageUrl).expect(404);
   });
 
   it('allows USER to read products', async () => {
