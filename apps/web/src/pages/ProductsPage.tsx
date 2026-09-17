@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { ApiError, apiClient } from '../services/api-client';
+import { ApiError, apiClient, resolveMediaUrl } from '../services/api-client';
 import type { ProductRecord } from '../types/products';
 import { StatusBanner } from '../components/StatusBanner';
 
@@ -134,7 +134,12 @@ export function ProductsPage(): React.JSX.Element {
                       <td>{product.precioVenta}</td>
                       <td>{product.stockActual}</td>
                       <td>
-                        <img className="product-thumb" src={product.imageUrl} alt="" />
+                        <img
+                          className="product-thumb"
+                          src={resolveMediaUrl(product.imageUrl)}
+                          crossOrigin="anonymous"
+                          alt=""
+                        />
                       </td>
                       <td>
                         <div className="row-actions">

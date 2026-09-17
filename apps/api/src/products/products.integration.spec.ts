@@ -198,6 +198,7 @@ describe('VentasFix products HTTP contract', () => {
     const media = await request(httpServer).get(readImageUrl(response.body)).expect(200);
     expect(media.headers['content-type']).toMatch(/^image\/png/);
     expect(media.headers['cache-control']).toContain('immutable');
+    expect(media.headers['cross-origin-resource-policy']).toBe('cross-origin');
   });
 
   it('rejects missing images and excessive decimal precision', async () => {

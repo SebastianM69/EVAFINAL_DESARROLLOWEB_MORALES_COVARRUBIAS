@@ -135,6 +135,7 @@ El entorno E2E requiere API, web, MySQL y un navegador Chromium/Chrome disponibl
 - CRUD clientes: ADMIN + USER
 - Dashboard: conteos reales de usuarios, productos y clientes
 - Media: `/media/products/:filename`
+- Las miniaturas se resuelven contra el origen de la API y usan CORS explícito para evitar enlaces rotos entre frontend y backend.
 - Swagger y health públicos según configuración
 
 Las respuestas públicas nunca incluyen passwords, hashes, refresh tokens ni rutas internas de almacenamiento.

@@ -14,6 +14,7 @@ export class MediaController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<StreamableFile> {
     const file = await this.images.getFile(filename);
+    response.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     return new StreamableFile(createReadStream(file.absolutePath), {
       type: file.mime,

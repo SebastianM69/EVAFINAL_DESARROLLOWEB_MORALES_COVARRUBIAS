@@ -10,6 +10,10 @@ const apiUrl =
     ? configuredApiUrl
     : 'http://localhost:3000/api/v1';
 
+export function resolveMediaUrl(imageUrl: string): string {
+  return new URL(imageUrl, apiUrl).toString();
+}
+
 type ErrorPayload = {
   statusCode?: number;
   code?: string;
