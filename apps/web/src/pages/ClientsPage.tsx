@@ -14,6 +14,16 @@ const fields = [
   'nombreContacto',
   'emailContacto',
 ] as const;
+
+const fieldLabels: Record<(typeof fields)[number], string> = {
+  rutEmpresa: 'RUT empresa',
+  rubro: 'Rubro',
+  razonSocial: 'Razón social',
+  telefono: 'Teléfono',
+  direccion: 'Dirección',
+  nombreContacto: 'Nombre de contacto',
+  emailContacto: 'Email de contacto',
+};
 type ClientInput = Omit<ClientRecord, 'id'>;
 
 export function ClientsPage(): React.JSX.Element {
@@ -32,6 +42,7 @@ export function ClientsPage(): React.JSX.Element {
     mutationFn: (id: number) => apiClient.deleteClient(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['clients'] }),
   });
+  const fieldErrors = mutation.error instanceof ApiError ? mutation.error.fieldErrors : undefined;
 
   async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -40,8 +51,12 @@ export function ClientsPage(): React.JSX.Element {
     const input = Object.fromEntries(
       fields.map((field) => [field, values[field] ?? '']),
     ) as ClientInput;
-    await mutation.mutateAsync(input);
-    form.reset();
+    try {
+      await mutation.mutateAsync(input);
+      form.reset();
+    } catch {
+      // The banner and inline messages expose the normalized API error.
+    }
   }
 
   return (
@@ -51,7 +66,7 @@ export function ClientsPage(): React.JSX.Element {
       <p className="page-lede">
         Mantén la información comercial de las empresas con RUT normalizado.
       </p>
-      {mutation.error instanceof ApiError && (
+      {mutation.error instanceof ApiError && !fieldErrors && (
         <StatusBanner message={mutation.error.message} tone="error" />
       )}
       <div className="clients-layout">
@@ -73,13 +88,18 @@ export function ClientsPage(): React.JSX.Element {
           </div>
           {fields.map((field) => (
             <label className="form-field" key={field}>
-              <span>{field}</span>
+              <span>{fieldLabels[field]}</span>
               <input
                 name={field}
                 type={field === 'emailContacto' ? 'email' : 'text'}
                 defaultValue={editing?.[field] ?? ''}
                 required
               />
+              {fieldErrors?.[field]?.map((message) => (
+                <small className="field-error" key={message}>
+                  {message}
+                </small>
+              ))}
             </label>
           ))}
           <button className="primary-button" type="submit" disabled={mutation.isPending}>
