@@ -72,6 +72,8 @@ API estable para grabación:
 corepack pnpm --filter @ventasfix/api start:demo
 ```
 
+El arranque de demo recompila la API antes de iniciar para no servir un `dist` antiguo. Si ya existe una API en el puerto 3000, detenla y vuelve a ejecutar este comando.
+
 Frontend:
 
 ```bash
