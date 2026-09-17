@@ -49,15 +49,13 @@ Estado documental vigente:
 - `R0`: baseline documental validada.
 - `R1–R11`: implementación y verificación validadas.
 - `R12`: pendiente de evidencia externa de entrega.
-- Pendientes externos: grabar y publicar los videos del sistema y de la API, probar sus enlaces públicamente y entregar el ZIP académico con el nombre solicitado.
+- Pendientes externos: completar la evidencia de entrega y enviar el ZIP académico con el nombre solicitado.
 - La evidencia del template académico inaccesible está en `EVIDENCIA_TEMPLATE_INACCESIBLE.txt`.
 
 Estado Git observado al actualizar este README:
 
 - Rama: `master`.
 - La rama local está adelantada respecto de `origin/master`.
-- Existe una modificación local en `LIBRETO_VIDEOS_EXF.md`.
-- No se debe declarar el workspace limpio mientras esa modificación exista.
 
 ### 2.1 Revisión técnica 2026-09-17
 
@@ -242,7 +240,6 @@ EVAFINAL_DESARROLLOWEB_MORALES_COVARRUBIAS/
 ├─ tsconfig.base.json                Configuración TypeScript común.
 ├─ pnpm-workspace.yaml               Paquetes del monorepo.
 ├─ pnpm-lock.yaml                    Versiones reproducibles.
-├─ LIBRETO_VIDEOS_EXF.md             Guion de demostración.
 ├─ EVIDENCIA_TEMPLATE_INACCESIBLE.txt Evidencia académica.
 └─ README.md                         Esta documentación.
 ```
@@ -356,6 +353,7 @@ En producción Swagger puede mantenerse deshabilitado con `SWAGGER_ENABLED=false
 - Healthcheck mediante `mysqladmin ping`.
 
 Iniciar:
+
 ```bash
 docker compose up -d
 docker compose ps
@@ -853,21 +851,19 @@ La documentación muestra:
 - Campos calculados de producto en la respuesta.
 - Ejemplos de RUT, correo, dinero, stocks y respuestas.
 
-### Demostración de Swagger
+### Uso práctico de Swagger
 
 1. Iniciar MySQL.
 2. Aplicar migración y seed.
 3. Iniciar API con `start:demo`.
-4. Abrir `/health` y mostrar `200`.
+4. Consultar `/health` y verificar `200`.
 5. Abrir `/api/docs`.
-6. Mostrar tags y rutas.
-7. Expandir `POST /api/v1/auth/login` y mostrar el body sin imprimir secretos.
-8. Mostrar `Authorize` y la seguridad Bearer.
-9. Expandir `POST /api/v1/productos` y mostrar `multipart/form-data`.
-10. Mostrar `image` como archivo obligatorio.
-11. Mostrar la respuesta con `precioVenta` e `imageUrl`.
-
-El libreto completo de la grabación está en `LIBRETO_VIDEOS_EXF.md`.
+6. Revisar tags y rutas.
+7. Revisar `POST /api/v1/auth/login` sin exponer secretos.
+8. Revisar `Authorize` y la seguridad Bearer.
+9. Revisar `POST /api/v1/productos` como `multipart/form-data`.
+10. Verificar `image` como archivo obligatorio.
+11. Verificar la respuesta con `precioVenta` e `imageUrl`.
 
 ---
 
@@ -938,7 +934,7 @@ corepack pnpm --filter @ventasfix/api build
 corepack pnpm --filter @ventasfix/api start
 ```
 
-`start:demo` ejecuta primero el build y luego inicia `dist/main.js`, por lo que es el comando recomendado para grabación. Si ya hay una API en el puerto 3000, detenerla antes.
+`start:demo` ejecuta primero el build y luego inicia `dist/main.js`, por lo que es el comando recomendado para una demostración local. Si ya hay una API en el puerto 3000, detenerla antes.
 
 ### 17.3 Detener servicios
 
@@ -1046,69 +1042,9 @@ La verificación registrada para el proyecto incluye:
 - E2E ADMIN/USER.
 - Smoke de health, Swagger, login, dashboard y frontend.
 
-Antes de una entrega final se deben repetir los comandos y conservar el resultado real de la ejecución. El README no sustituye la evidencia de terminal ni el video solicitado.
+Antes de una entrega final se deben repetir los comandos y conservar el resultado real de la ejecución. El README no sustituye la evidencia de terminal.
 
 La revisión técnica del 2026-09-17 volvió a ejecutar los gates después de las correcciones de integridad. El resultado final queda respaldado por la salida real de los comandos y el commit de cierre.
-
----
-
-## 19. Preparación de la demostración académica
-
-El guion está en `LIBRETO_VIDEOS_EXF.md`.
-
-### Video del sistema
-
-Debe mostrar, como mínimo:
-
-- Login.
-- Dashboard.
-- CRUD de usuarios como ADMIN.
-- CRUD de productos e imagen.
-- CRUD de clientes.
-- Restricción de USER sobre Usuarios.
-- Feedback de éxito y error.
-
-Nombre sugerido:
-
-```text
-ExF_Sistema_MORALES_SEBASTIAN.mp4
-```
-
-### Video de API
-
-Debe usar Swagger y PowerShell/curl para mostrar:
-
-- Health.
-- Swagger.
-- Login.
-- Cookie refresh sin revelar su valor.
-- Bearer JWT.
-- Dashboard.
-- Usuarios y autorización.
-- Productos multipart e IVA.
-- Clientes y normalización.
-- Errores `422`, `400` y `403`.
-- Seguridad HTTP.
-
-Nombre sugerido:
-
-```text
-EXF_API_MORALES_SEBASTIAN.mp4
-```
-
-No mostrar en pantalla:
-
-- Passwords reales.
-- Tokens completos.
-- Cookies completas.
-- Secretos JWT.
-- URLs de producción con credenciales.
-
-El objetivo de cada operación debe narrarse en tres pasos:
-
-1. Qué ruta o pantalla se ejecuta.
-2. Qué status y respuesta se espera.
-3. Qué regla técnica demuestra.
 
 ---
 
