@@ -64,9 +64,12 @@ describe('ClientsPage', () => {
       emailContacto: 'Email de contacto',
     };
     for (const [field, value] of Object.entries(values)) {
-      fireEvent.change(screen.getByRole('textbox', { name: labels[field as keyof typeof labels] }), {
-        target: { value },
-      });
+      fireEvent.change(
+        screen.getByRole('textbox', { name: labels[field as keyof typeof labels] }),
+        {
+          target: { value },
+        },
+      );
     }
     fireEvent.click(screen.getByRole('button', { name: 'Crear cliente' }));
 
