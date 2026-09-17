@@ -32,11 +32,7 @@ El objetivo es que la aplicación sea demostrable, reproducible en Windows y ver
 
 ## 2. Fuente documental y estado del proyecto
 
-La fuente documental vigente es el paquete SDD externo:
-
-```text
-C:\Users\sandr\Desktop\VentasFix_SDD_CURRENT_R0_VALIDATED_20260914
-```
+La fuente documental vigente es el paquete SDD entregado por separado del código. Dentro del workspace, la documentación operativa se referencia desde la raíz del proyecto.
 
 Antes de modificar funcionalidades se deben revisar, en este orden:
 
@@ -46,11 +42,7 @@ Antes de modificar funcionalidades se deben revisar, en este orden:
 4. La decisión arquitectónica relevante en `decisions/`.
 5. `17_AMBIGUITIES_RESOLVED.md`.
 
-El workspace de implementación es:
-
-```text
-C:\Users\sandr\Desktop\EVAFINAL_DESARROLLOWEB_MORALES_COVARRUBIAS
-```
+La raíz del workspace es el directorio del proyecto (`.`):
 
 Estado documental vigente:
 
@@ -266,8 +258,7 @@ EVAFINAL_DESARROLLOWEB_MORALES_COVARRUBIAS/
 - Corepack habilitado.
 - pnpm `12.4.1` administrado por Corepack.
 - Docker Desktop activo.
-- Chrome instalado para E2E en la configuración actual de Playwright:
-  `C:\Program Files\Google\Chrome\Application\chrome.exe`.
+- Chrome instalado para E2E; Playwright usa el navegador configurado localmente.
 
 ### 6.2 Instalar dependencias
 
@@ -1195,13 +1186,7 @@ Comprobar:
 
 ### E2E no encuentra Chrome
 
-La configuración espera:
-
-```text
-C:\Program Files\Google\Chrome\Application\chrome.exe
-```
-
-Instalar Chrome en esa ubicación o adaptar la configuración local sin cambiar el contrato de la entrega.
+Instalar Chrome o configurar el navegador disponible en el entorno local. La configuración no depende de una ruta absoluta del equipo del autor.
 
 ### El puerto 3000 o 5173 está ocupado
 
@@ -1319,5 +1304,5 @@ El SDD actualizado se entrega como paquete separado en la ruta indicada en la se
 ## 24. Referencias del proyecto
 
 - Código fuente: <https://github.com/SebastianM69/EVAFINAL_DESARROLLOWEB_MORALES_COVARRUBIAS>
-- SDD vigente: `C:\Users\sandr\Desktop\VentasFix_SDD_CURRENT_R0_VALIDATED_20260914`
+- SDD vigente: paquete documental entregado por separado del repositorio.
 - Evidencia del template: `EVIDENCIA_TEMPLATE_INACCESIBLE.txt`

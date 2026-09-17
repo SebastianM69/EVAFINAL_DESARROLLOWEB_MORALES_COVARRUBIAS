@@ -12,7 +12,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     ...devices['Desktop Chrome'],
-    launchOptions: { executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' },
+    channel: 'chrome',
   },
   webServer: [
     {
